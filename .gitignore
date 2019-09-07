@@ -1,0 +1,14 @@
+*.iml
+*.ipr
+*.iws
+.idea
+.DS_Store
+target/
+out/
+
+# Eclipse project files
+.project
+.classpath
+.checkstyle
+org.eclipse*
+/.metadata/
