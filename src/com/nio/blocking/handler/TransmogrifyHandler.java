@@ -13,9 +13,9 @@ public class TransmogrifyHandler implements Handler<Socket> {
     public void handle(Socket s) throws IOException {
 
         try (
-                s;
-                InputStream in = s.getInputStream();
-                OutputStream op = s.getOutputStream()
+            s;
+            InputStream in = s.getInputStream();
+            OutputStream op = s.getOutputStream()
         ) {
             int data;
             while ((data = in.read()) != -1) {
