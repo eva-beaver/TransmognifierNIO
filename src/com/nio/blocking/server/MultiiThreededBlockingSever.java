@@ -1,5 +1,6 @@
 package com.nio.blocking.server;
 
+import com.nio.blocking.handler.TransmogrifyHandler;
 import com.nio.blocking.util.Util;
 
 import java.io.IOException;
@@ -26,15 +27,9 @@ public class MultiiThreededBlockingSever {
 
         new Thread(() -> {
             System.out.println("Connected to " + s);
-            try (
-                    s;
-                    InputStream in = s.getInputStream();
-                    OutputStream op = s.getOutputStream()
-            ) {
-                int data;
-                while ((data = in.read()) != -1) {
-                    op.write(Util.transmogrify(data));
-                }
+
+            try {
+                new TransmogrifyHandler().handle(s);
             } catch (IOException ex) {
                 throw new UncheckedIOException(ex);
             } finally {
