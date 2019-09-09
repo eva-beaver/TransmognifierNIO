@@ -1,9 +1,6 @@
 package com.nio.blocking.server;
 
-import com.nio.blocking.handler.Handler;
-import com.nio.blocking.handler.PrintingHandler;
-import com.nio.blocking.handler.TransmogrifyHandler;
-import com.nio.blocking.handler.UncheckedIOExceptionConverterHandler;
+import com.nio.blocking.handler.*;
 import com.nio.blocking.util.Util;
 
 import java.io.IOException;
@@ -13,13 +10,13 @@ import java.io.UncheckedIOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class MultiiThreadedBlockingSever {
+public class MultiThreadedBlockingSever {
 
     public static void main(String[] args) throws IOException {
         ServerSocket ss = new ServerSocket(8080);
 
-        UncheckedIOExceptionConverterHandler<Socket> handler =
-             new UncheckedIOExceptionConverterHandler<>(
+        Handler<Socket> handler =
+             new ThreadedHandler<>(
                 new PrintingHandler<>(
                         new TransmogrifyHandler()
                 )
@@ -28,7 +25,7 @@ public class MultiiThreadedBlockingSever {
         while (true) {
             Socket s = ss.accept();
 
-            new Thread(() -> handler.handle(s)).start();
+            handler.handle(s);
 
         }
     }
