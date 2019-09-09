@@ -1,10 +1,8 @@
 package com.nio.blocking.server;
 
-import util.Util;
+import com.nio.blocking.handler.TransmogrifyHandler;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -24,18 +22,9 @@ public class SingleThreededBlockingSever {
     private static void handle(Socket s) throws IOException {
         System.out.println("Connected to " + s);
 
-        try (
-                s;
-                InputStream in = s.getInputStream();
-                OutputStream op =s.getOutputStream()
-        ) {
-       int data;
-        while ((data = in.read()) != -1) {
-            op.write(Util.transmogrify(data));
-        }
-        } finally {
-            System.out.println("Disonnected from " + s);
-        }
-   }
+        new TransmogrifyHandler().handle(s);
+
+        System.out.println("Disonnected from " + s);
+    }
 
 }

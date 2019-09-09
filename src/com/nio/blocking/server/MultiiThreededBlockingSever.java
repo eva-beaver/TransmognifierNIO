@@ -1,6 +1,7 @@
 package com.nio.blocking.server;
 
-import util.Util;
+import com.nio.blocking.handler.TransmogrifyHandler;
+import com.nio.blocking.util.Util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,20 +26,15 @@ public class MultiiThreededBlockingSever {
     private static void handle(Socket s) throws IOException {
 
         new Thread(() -> {
-            System.out.println("Connected to " + s);
-            try (
-                    s;
-                    InputStream in = s.getInputStream();
-                    OutputStream op = s.getOutputStream()
-            ) {
-                int data;
-                while ((data = in.read()) != -1) {
-                    op.write(Util.transmogrify(data));
+            try {
+                try {
+                    System.out.println("Connected to " + s);
+                    new TransmogrifyHandler().handle(s);
+                } finally {
+                    System.out.println("Disonnected from " + s);
                 }
             } catch (IOException ex) {
                 throw new UncheckedIOException(ex);
-            } finally {
-                System.out.println("Disonnected from " + s);
             }
         }).start();
     }

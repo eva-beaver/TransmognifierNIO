@@ -1,4 +1,4 @@
-package util;
+package com.nio.blocking.util;
 
 public class Util {
     public static int transmogrify(int data) {
