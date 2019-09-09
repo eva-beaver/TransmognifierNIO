@@ -26,14 +26,15 @@ public class MultiiThreededBlockingSever {
     private static void handle(Socket s) throws IOException {
 
         new Thread(() -> {
-            System.out.println("Connected to " + s);
-
             try {
-                new TransmogrifyHandler().handle(s);
+                try {
+                    System.out.println("Connected to " + s);
+                    new TransmogrifyHandler().handle(s);
+                } finally {
+                    System.out.println("Disonnected from " + s);
+                }
             } catch (IOException ex) {
                 throw new UncheckedIOException(ex);
-            } finally {
-                System.out.println("Disonnected from " + s);
             }
         }).start();
     }
