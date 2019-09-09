@@ -1,6 +1,9 @@
 package com.nio.blocking.server;
 
+import com.nio.blocking.handler.Handler;
+import com.nio.blocking.handler.PrintingHandler;
 import com.nio.blocking.handler.TransmogrifyHandler;
+import com.nio.blocking.handler.UncheckedIOExceptionConverterHandler;
 import com.nio.blocking.util.Util;
 
 import java.io.IOException;
@@ -14,29 +17,20 @@ public class MultiiThreededBlockingSever {
 
     public static void main(String[] args) throws IOException {
         ServerSocket ss = new ServerSocket(8080);
+
+        UncheckedIOExceptionConverterHandler<Socket> handler =
+             new UncheckedIOExceptionConverterHandler<>(
+                new PrintingHandler<>(
+                        new TransmogrifyHandler()
+                )
+        );
+
         while (true) {
             Socket s = ss.accept();
 
-            handle(s);
+            new Thread(() -> handler.handle(s)).start();
 
-            //in.transferTo(op);
         }
-    }
-
-    private static void handle(Socket s) throws IOException {
-
-        new Thread(() -> {
-            try {
-                try {
-                    System.out.println("Connected to " + s);
-                    new TransmogrifyHandler().handle(s);
-                } finally {
-                    System.out.println("Disonnected from " + s);
-                }
-            } catch (IOException ex) {
-                throw new UncheckedIOException(ex);
-            }
-        }).start();
     }
 
 }
