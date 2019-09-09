@@ -5,6 +5,7 @@
 .DS_Store
 target/
 out/
+output/
 
 # Eclipse project files
 .project
