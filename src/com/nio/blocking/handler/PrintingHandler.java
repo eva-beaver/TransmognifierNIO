@@ -14,7 +14,7 @@ public class PrintingHandler<S> implements Handler<S> {
     public void handle(S s) throws IOException {
         System.out.println("Connected to " + s);
         try {
-            other.handle(S);
+            other.handle(s);
         } finally {
             System.out.println("Disconnected from " + s);
         }
