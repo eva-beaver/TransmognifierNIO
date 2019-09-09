@@ -13,7 +13,7 @@ import java.io.UncheckedIOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class MultiiThreededBlockingSever {
+public class MultiiThreadedBlockingSever {
 
     public static void main(String[] args) throws IOException {
         ServerSocket ss = new ServerSocket(8080);
