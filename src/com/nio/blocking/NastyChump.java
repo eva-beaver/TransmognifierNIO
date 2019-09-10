@@ -17,6 +17,7 @@ public class NastyChump {
 
         for (int i = 0; i < socket.length; i++) {
             try {
+                System.out.println("Trying socket connection on port 8080 ...." + i);
                 socket[i] = new Socket("localhost", 8080);
                 System.out.println("New socket connection on port 8080 ...." + i);
             } catch (IOException e) {
