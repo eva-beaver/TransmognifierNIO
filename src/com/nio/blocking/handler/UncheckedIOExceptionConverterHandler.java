@@ -3,12 +3,10 @@ package com.nio.blocking.handler;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-public class UncheckedIOExceptionConverterHandler<S> implements Handler<S> {
-
-    private final Handler<S> other;
+public class UncheckedIOExceptionConverterHandler<S> extends DecoratedHandler<S> {
 
     public UncheckedIOExceptionConverterHandler(Handler<S> other) {
-        this.other = other;
+        super(other);
     }
 
     // Do not throw exception
@@ -16,7 +14,7 @@ public class UncheckedIOExceptionConverterHandler<S> implements Handler<S> {
     public void handle(S s) {
 
         try {
-            other.handle(s);
+            super.handle(s);
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
