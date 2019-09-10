@@ -18,7 +18,7 @@ public class ExecutorServiceBlockingSever {
                 new PrintingHandler<>(
                         new TransmogrifyHandler()
                 ),
-                     Executors.newCachedThreadPool(),
+                     Executors.newFixedThreadPool(10),
                      (t, e) -> System.out.println("uncaught: " + t + " error " + e)
         );
 
